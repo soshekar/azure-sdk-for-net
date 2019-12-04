@@ -10,11 +10,12 @@
 
 namespace Microsoft.Azure.Management.Security.Models
 {
+    using Microsoft.Rest;
     using Newtonsoft.Json;
     using System.Linq;
 
     /// <summary>
-    /// Details of the resource that was assessed
+    /// Details of the Azure resource that was assessed
     /// </summary>
     [Newtonsoft.Json.JsonObject("Azure")]
     public partial class AzureResourceDetails : ResourceDetails
@@ -30,8 +31,8 @@ namespace Microsoft.Azure.Management.Security.Models
         /// <summary>
         /// Initializes a new instance of the AzureResourceDetails class.
         /// </summary>
-        /// <param name="id">Azure resource ID of the assessed resource</param>
-        public AzureResourceDetails(string id = default(string))
+        /// <param name="id">Azure resource Id of the assessed resource</param>
+        public AzureResourceDetails(string id)
         {
             Id = id;
             CustomInit();
@@ -43,10 +44,23 @@ namespace Microsoft.Azure.Management.Security.Models
         partial void CustomInit();
 
         /// <summary>
-        /// Gets azure resource ID of the assessed resource
+        /// Gets or sets azure resource Id of the assessed resource
         /// </summary>
         [JsonProperty(PropertyName = "id")]
-        public string Id { get; private set; }
+        public string Id { get; set; }
 
+        /// <summary>
+        /// Validate the object.
+        /// </summary>
+        /// <exception cref="ValidationException">
+        /// Thrown if validation fails
+        /// </exception>
+        public virtual void Validate()
+        {
+            if (Id == null)
+            {
+                throw new ValidationException(ValidationRules.CannotBeNull, "Id");
+            }
+        }
     }
 }
